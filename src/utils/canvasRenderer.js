@@ -12,9 +12,8 @@ export const renderPhotosToCanvas = async (photos, layout, backgroundColor, canv
     const ctx = canvas.getContext('2d');
 
     // Canvas dimensions based on layout
-    const padding = 40; // Outer padding from background edge
+    const padding = 40; // Padding from background edge
     const photoSpacing = 20; // Spacing between photos
-    const innerPadding = 30; // White inner padding (acts as white frame)
 
     let canvasWidth, canvasHeight;
     let photoWidth, photoHeight;
@@ -24,34 +23,25 @@ export const renderPhotosToCanvas = async (photos, layout, backgroundColor, canv
         photoWidth = 500;
         photoHeight = 375;
         const totalPhotoHeight = (photoHeight * layout.poses) + (photoSpacing * (layout.poses - 1));
-        canvasWidth = photoWidth + (padding * 2) + (innerPadding * 2);
-        canvasHeight = totalPhotoHeight + (padding * 2) + (innerPadding * 2);
+        canvasWidth = photoWidth + (padding * 2);
+        canvasHeight = totalPhotoHeight + (padding * 2);
     } else if (layout.gridType === 'grid-2x3') {
         // Grid 2x2 (4 photos): 2 columns, 2 rows
         photoWidth = 350;
         photoHeight = 350;
         const cols = 2;
         const rows = 2;
-        canvasWidth = (photoWidth * cols) + (photoSpacing * (cols - 1)) + (padding * 2) + (innerPadding * 2);
-        canvasHeight = (photoHeight * rows) + (photoSpacing * (rows - 1)) + (padding * 2) + (innerPadding * 2);
+        canvasWidth = (photoWidth * cols) + (photoSpacing * (cols - 1)) + (padding * 2);
+        canvasHeight = (photoHeight * rows) + (photoSpacing * (rows - 1)) + (padding * 2);
     }
 
     // Set canvas size
     canvas.width = canvasWidth;
     canvas.height = canvasHeight;
 
-    // Draw colored background (the main feature!)
+    // Draw colored background only (no white frame!)
     ctx.fillStyle = backgroundColor;
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-
-    // Draw white inner area (like a photo paper/frame)
-    ctx.fillStyle = '#FFFFFF';
-    ctx.fillRect(
-        padding,
-        padding,
-        canvasWidth - (padding * 2),
-        canvasHeight - (padding * 2)
-    );
 
     // Load and draw photos
     const imagePromises = photos.map((photoSrc) => {
@@ -65,8 +55,8 @@ export const renderPhotosToCanvas = async (photos, layout, backgroundColor, canv
     const images = await Promise.all(imagePromises);
 
     // Draw photos based on layout
-    const startX = padding + innerPadding;
-    const startY = padding + innerPadding;
+    const startX = padding;
+    const startY = padding;
 
     if (layout.gridType === 'vertical-strip') {
         images.forEach((img, index) => {
@@ -86,19 +76,20 @@ export const renderPhotosToCanvas = async (photos, layout, backgroundColor, canv
         });
     }
 
-    // Add small watermark at bottom of white area
+    // Add small watermark at bottom
     const watermarkText = `One 2 Kie Photo Booth`;
     const watermarkDate = new Date().toLocaleDateString('id-ID');
 
     ctx.font = 'bold 14px Poppins, sans-serif';
-    ctx.fillStyle = '#9CA3AF';
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.7)'; // White with transparency
     ctx.textAlign = 'center';
 
-    const textY = canvasHeight - padding - 10;
+    const textY = canvasHeight - 15;
     ctx.fillText(watermarkText, canvasWidth / 2, textY);
 
     ctx.font = '12px Poppins, sans-serif';
-    ctx.fillText(watermarkDate, canvasWidth / 2, textY + 18);
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+    ctx.fillText(watermarkDate, canvasWidth / 2, textY + 16);
 };
 
 /**
