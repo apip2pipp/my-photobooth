@@ -88,7 +88,7 @@ const EditDownloadPage = ({ selectedLayout, capturedPhotos, onBack, onChangeLayo
 
                     {/* Layout Info */}
                     <div style={styles.layoutInfo}>
-                        <div style={styles.layoutBadge}>
+                        <div style={{ ...styles.layoutBadge, background: colors.cardBg, border: `1px solid ${colors.cardBorder}`, color: colors.text }}>
                             📐 {layout.name} • {layout.poses} Pose
                         </div>
                     </div>
@@ -98,7 +98,7 @@ const EditDownloadPage = ({ selectedLayout, capturedPhotos, onBack, onChangeLayo
                 <div style={styles.editPanel}>
                     {/* Color Picker Section */}
                     <div style={styles.editSection}>
-                        <h3 style={styles.sectionTitle}>
+                        <h3 style={{ ...styles.sectionTitle, color: colors.text }}>
                             <span style={styles.sectionIcon}>🎨</span>
                             Warna Background
                         </h3>
@@ -122,7 +122,7 @@ const EditDownloadPage = ({ selectedLayout, capturedPhotos, onBack, onChangeLayo
 
                         {/* Custom Color Picker */}
                         <div style={styles.customColorSection}>
-                            <label style={styles.customColorLabel}>
+                            <label style={{ ...styles.customColorLabel, color: colors.text }}>
                                 Custom Color:
                             </label>
                             <div style={styles.customColorPicker}>
@@ -153,8 +153,8 @@ const EditDownloadPage = ({ selectedLayout, capturedPhotos, onBack, onChangeLayo
                                 }}
                             />
                             <div style={styles.currentColorInfo}>
-                                <div style={styles.currentColorLabel}>Current Background Color</div>
-                                <div style={styles.currentColorValue}>{backgroundColor}</div>
+                                <div style={{ ...styles.currentColorLabel, color: colors.textSecondary }}>Current Background Color</div>
+                                <div style={{ ...styles.currentColorValue, color: colors.text }}>{backgroundColor}</div>
                             </div>
                         </div>
                     </div>
@@ -186,11 +186,11 @@ const EditDownloadPage = ({ selectedLayout, capturedPhotos, onBack, onChangeLayo
 
                     {/* Tips */}
                     <div style={styles.tipsSection}>
-                        <h4 style={styles.tipsTitle}>💡 Tips:</h4>
+                        <h4 style={{ ...styles.tipsTitle, color: colors.text }}>💡 Tips:</h4>
                         <ul style={styles.tipsList}>
-                            <li style={styles.tipItem}>Pilih warna background yang cocok dengan foto untuk hasil terbaik</li>
-                            <li style={styles.tipItem}>Gunakan custom color picker untuk warna yang lebih spesifik</li>
-                            <li style={styles.tipItem}>File akan di-download dalam format PNG berkualitas tinggi</li>
+                            <li style={{ ...styles.tipItem, color: colors.textSecondary }}>Pilih warna background yang cocok dengan foto untuk hasil terbaik</li>
+                            <li style={{ ...styles.tipItem, color: colors.textSecondary }}>Gunakan custom color picker untuk warna yang lebih spesifik</li>
+                            <li style={{ ...styles.tipItem, color: colors.textSecondary }}>File akan di-download dalam format PNG berkualitas tinggi</li>
                         </ul>
                     </div>
                 </div>
@@ -203,7 +203,6 @@ const EditDownloadPage = ({ selectedLayout, capturedPhotos, onBack, onChangeLayo
 const styles = {
     editDownloadPage: {
         minHeight: '100vh',
-        background: '#0F0A1E',
         padding: '2rem',
         position: 'relative',
     },
@@ -221,7 +220,6 @@ const styles = {
         fontSize: '3rem',
         fontWeight: '800',
         fontFamily: 'Poppins, sans-serif',
-        color: '#FFFFFF',
         marginBottom: '0.5rem',
         display: 'flex',
         alignItems: 'center',
@@ -233,7 +231,6 @@ const styles = {
     },
     subtitle: {
         fontSize: '1.25rem',
-        color: 'rgba(255, 255, 255, 0.7)',
         lineHeight: '1.6',
     },
 
@@ -306,14 +303,11 @@ const styles = {
     },
     layoutBadge: {
         display: 'inline-block',
-        background: 'rgba(255, 255, 255, 0.1)',
         backdropFilter: 'blur(10px)',
-        border: '1px solid rgba(255, 255, 255, 0.2)',
         padding: '0.75rem 1.5rem',
         borderRadius: '50px',
         fontSize: '1rem',
         fontWeight: '700',
-        color: '#FFFFFF',
         boxShadow: '0 4px 15px rgba(0,0,0,0.2)',
     },
 
@@ -340,7 +334,6 @@ const styles = {
     sectionTitle: {
         fontSize: '1.5rem',
         fontWeight: '800',
-        color: '#FFFFFF',
         marginBottom: '1.5rem',
         fontFamily: 'Poppins, sans-serif',
         display: 'flex',
@@ -373,7 +366,6 @@ const styles = {
         display: 'block',
         fontSize: '0.95rem',
         fontWeight: '600',
-        color: 'rgba(255, 255, 255, 0.8)',
         marginBottom: '0.75rem',
     },
     customColorPicker: {
@@ -425,7 +417,6 @@ const styles = {
     currentColorLabel: {
         fontSize: '0.85rem',
         fontWeight: '600',
-        color: '#6B7280',
         textTransform: 'uppercase',
         letterSpacing: '0.5px',
         marginBottom: '0.25rem',
@@ -433,7 +424,6 @@ const styles = {
     currentColorValue: {
         fontSize: '1.25rem',
         fontWeight: '800',
-        color: '#FFFFFF',
         fontFamily: 'monospace',
     },
 
@@ -445,7 +435,7 @@ const styles = {
     },
     downloadButton: {
         background: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
-        color: 'white',
+        color: '#FFFFFF',
         padding: '1.25rem 2rem',
         fontSize: '1.2rem',
         borderRadius: '15px',
@@ -458,7 +448,7 @@ const styles = {
     },
     retakeButton: {
         background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        color: 'white',
+        color: '#FFFFFF',
         padding: '1rem 2rem',
         fontSize: '1.05rem',
         borderRadius: '15px',
@@ -492,7 +482,6 @@ const styles = {
     tipsTitle: {
         fontSize: '1.1rem',
         fontWeight: '800',
-        color: '#FFFFFF',
         marginBottom: '1rem',
         fontFamily: 'Poppins, sans-serif',
     },
@@ -506,7 +495,6 @@ const styles = {
     },
     tipItem: {
         fontSize: '0.9rem',
-        color: 'rgba(255, 255, 255, 0.8)',
         lineHeight: '1.5',
         paddingLeft: '1.5rem',
         position: 'relative',
