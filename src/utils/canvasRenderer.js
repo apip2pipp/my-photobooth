@@ -40,9 +40,9 @@ export const renderPhotosToCanvas = async (photos, layout, backgroundColor, canv
         canvasWidth = photoWidth + (padding * 2);
         canvasHeight = totalPhotoHeight + (padding * 2) + bottomTextSpace;
     } else if (layout.gridType === 'grid-2x3') {
-        // Grid 2x2: use native photo resolution
+        // Grid 2x3: 2 columns x 3 rows = 6 photos
         const cols = 2;
-        const rows = 2;
+        const rows = 3;
         canvasWidth = (photoWidth * cols) + (photoSpacing * (cols - 1)) + (padding * 2);
         canvasHeight = (photoHeight * rows) + (photoSpacing * (rows - 1)) + (padding * 2) + bottomTextSpace;
     }
@@ -68,8 +68,8 @@ export const renderPhotosToCanvas = async (photos, layout, backgroundColor, canv
             ctx.drawImage(img, x, y, img.width, img.height);
         });
     } else if (layout.gridType === 'grid-2x3') {
-        const displayPhotos = images.slice(0, 4);
-        displayPhotos.forEach((img, index) => {
+        // Render all 6 photos in 2x3 grid
+        images.forEach((img, index) => {
             const col = index % 2;
             const row = Math.floor(index / 2);
             const x = startX + (col * (photoWidth + photoSpacing));

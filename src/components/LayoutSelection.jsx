@@ -96,8 +96,8 @@ const renderLayoutPreview = (layout) => {
             </div>
         );
     } else if (layout.gridType === 'grid-2x3') {
-        // Grid 2x2 layout (4 photos)
-        for (let i = 0; i < 4; i++) {
+        // Grid 2x3 layout (6 photos)
+        for (let i = 0; i < 6; i++) {
             previewBoxes.push(
                 <div key={i} style={styles.previewBoxGrid}></div>
             );
