@@ -11,39 +11,7 @@
 export const renderPhotosToCanvas = async (photos, layout, backgroundColor, canvas) => {
     const ctx = canvas.getContext('2d');
 
-    // Canvas dimensions based on layout
-    const padding = 40; // Padding from background edge
-    const photoSpacing = 20; // Spacing between photos
-
-    let canvasWidth, canvasHeight;
-    let photoWidth, photoHeight;
-
-    if (layout.gridType === 'vertical-strip') {
-        // Vertical strip: all photos stacked vertically
-        photoWidth = 500;
-        photoHeight = 375;
-        const totalPhotoHeight = (photoHeight * layout.poses) + (photoSpacing * (layout.poses - 1));
-        canvasWidth = photoWidth + (padding * 2);
-        canvasHeight = totalPhotoHeight + (padding * 2);
-    } else if (layout.gridType === 'grid-2x3') {
-        // Grid 2x2 (4 photos): 2 columns, 2 rows
-        photoWidth = 350;
-        photoHeight = 350;
-        const cols = 2;
-        const rows = 2;
-        canvasWidth = (photoWidth * cols) + (photoSpacing * (cols - 1)) + (padding * 2);
-        canvasHeight = (photoHeight * rows) + (photoSpacing * (rows - 1)) + (padding * 2);
-    }
-
-    // Set canvas size
-    canvas.width = canvasWidth;
-    canvas.height = canvasHeight;
-
-    // Draw colored background only (no white frame!)
-    ctx.fillStyle = backgroundColor;
-    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-
-    // Load and draw photos
+    // Load images first to get their actual dimensions
     const imagePromises = photos.map((photoSrc) => {
         return new Promise((resolve) => {
             const img = new Image();
@@ -53,6 +21,39 @@ export const renderPhotosToCanvas = async (photos, layout, backgroundColor, canv
     });
 
     const images = await Promise.all(imagePromises);
+    
+    // Use actual image dimensions from webcam
+    const firstImage = images[0];
+    const photoWidth = firstImage.width;
+    const photoHeight = firstImage.height;
+
+    // Canvas dimensions based on layout
+    const padding = 40;
+    const photoSpacing = 20;
+    const bottomTextSpace = 30;
+
+    let canvasWidth, canvasHeight;
+
+    if (layout.gridType === 'vertical-strip') {
+        // Vertical strip: stack photos using their native resolution
+        const totalPhotoHeight = (photoHeight * layout.poses) + (photoSpacing * (layout.poses - 1));
+        canvasWidth = photoWidth + (padding * 2);
+        canvasHeight = totalPhotoHeight + (padding * 2) + bottomTextSpace;
+    } else if (layout.gridType === 'grid-2x3') {
+        // Grid 2x2: use native photo resolution
+        const cols = 2;
+        const rows = 2;
+        canvasWidth = (photoWidth * cols) + (photoSpacing * (cols - 1)) + (padding * 2);
+        canvasHeight = (photoHeight * rows) + (photoSpacing * (rows - 1)) + (padding * 2) + bottomTextSpace;
+    }
+
+    // Set canvas size
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+
+    // Draw colored background
+    ctx.fillStyle = backgroundColor;
+    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     // Draw photos based on layout
     const startX = padding;
@@ -62,34 +63,37 @@ export const renderPhotosToCanvas = async (photos, layout, backgroundColor, canv
         images.forEach((img, index) => {
             const x = startX;
             const y = startY + (index * (photoHeight + photoSpacing));
-            ctx.drawImage(img, x, y, photoWidth, photoHeight);
+            
+            // Draw image at its native resolution - NO stretching!
+            ctx.drawImage(img, x, y, img.width, img.height);
         });
     } else if (layout.gridType === 'grid-2x3') {
-        // For 4 photos grid 2x2
-        const displayPhotos = images.slice(0, 4); // Take only first 4 photos
+        const displayPhotos = images.slice(0, 4);
         displayPhotos.forEach((img, index) => {
             const col = index % 2;
             const row = Math.floor(index / 2);
             const x = startX + (col * (photoWidth + photoSpacing));
             const y = startY + (row * (photoHeight + photoSpacing));
-            ctx.drawImage(img, x, y, photoWidth, photoHeight);
+            
+            // Draw image at its native resolution - NO stretching!
+            ctx.drawImage(img, x, y, img.width, img.height);
         });
     }
 
-    // Add small watermark at bottom
+    // Add watermark at bottom
     const watermarkText = `One 2 Kie Photo Booth`;
     const watermarkDate = new Date().toLocaleDateString('id-ID');
 
-    ctx.font = 'bold 14px Poppins, sans-serif';
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.7)'; // White with transparency
+    ctx.font = 'bold 16px Poppins, sans-serif';
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
     ctx.textAlign = 'center';
 
-    const textY = canvasHeight - 15;
+    const textY = canvasHeight - 40;
     ctx.fillText(watermarkText, canvasWidth / 2, textY);
 
-    ctx.font = '12px Poppins, sans-serif';
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
-    ctx.fillText(watermarkDate, canvasWidth / 2, textY + 16);
+    ctx.font = '13px Poppins, sans-serif';
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+    ctx.fillText(watermarkDate, canvasWidth / 2, textY + 22);
 };
 
 /**
