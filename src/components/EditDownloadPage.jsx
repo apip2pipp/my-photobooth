@@ -264,11 +264,13 @@ const styles = {
         alignItems: 'center',
     },
     previewImage: {
-        maxWidth: '500px',
-        maxHeight: '600px',
+        width: 'auto',
         height: 'auto',
+        maxWidth: '100%',
+        maxHeight: '70vh',
         borderRadius: '15px',
         boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
+        objectFit: 'contain',
     },
     renderingOverlay: {
         position: 'absolute',
