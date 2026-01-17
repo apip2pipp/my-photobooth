@@ -113,7 +113,7 @@ const CameraPage = ({ selectedLayout, onComplete, onBack, theme, toggleTheme }) 
 
                                 {countdown !== null && (
                                     <div style={styles.countdownOverlay}>
-                                        <div style={styles.countdownCircle}>
+                                        <div style={styles.countdownNumber}>
                                             {countdown > 0 ? countdown : '📸'}
                                         </div>
                                         {countdown > 0 && <div style={styles.countdownText}>GET READY</div>}
@@ -256,9 +256,9 @@ const styles = {
     // Content
     content: {
         display: 'grid',
-        gridTemplateColumns: '1fr 400px',
+        gridTemplateColumns: '1fr 350px',
         gap: '2rem',
-        maxWidth: '1400px',
+        maxWidth: '1600px',
         margin: '0 auto',
     },
 
@@ -279,8 +279,7 @@ const styles = {
     cameraWrapper: {
         position: 'relative',
         width: '100%',
-        maxWidth: '400px',
-        aspectRatio: '1/1',
+        maxWidth: '650px',
         borderRadius: '25px',
         overflow: 'hidden',
         boxShadow: '0 20px 60px rgba(0,0,0,0.3)',
@@ -288,8 +287,8 @@ const styles = {
     },
     webcam: {
         width: '100%',
-        height: '100%',
-        objectFit: 'cover',
+        height: 'auto',
+        display: 'block',
     },
 
     // Countdown
@@ -299,25 +298,18 @@ const styles = {
         left: 0,
         right: 0,
         bottom: 0,
-        background: 'rgba(0, 0, 0, 0.6)',
+        background: 'rgba(0, 0, 0, 0.4)',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
         zIndex: 10,
     },
-    countdownCircle: {
-        width: '200px',
-        height: '200px',
-        borderRadius: '50%',
-        background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        fontSize: '5rem',
-        fontWeight: '800',
+    countdownNumber: {
+        fontSize: '6rem',
+        fontWeight: '900',
         color: 'white',
-        boxShadow: '0 10px 40px rgba(240, 147, 251, 0.5)',
+        textShadow: '0 0 20px rgba(0, 0, 0, 0.8), 0 0 40px rgba(0, 0, 0, 0.6), 0 4px 10px rgba(0, 0, 0, 0.9)',
         animation: 'pulse 1s ease-in-out infinite',
     },
     countdownText: {
@@ -327,6 +319,7 @@ const styles = {
         color: 'white',
         textTransform: 'uppercase',
         letterSpacing: '2px',
+        textShadow: '0 2px 10px rgba(0, 0, 0, 0.8)',
     },
 
     // Loading
@@ -452,12 +445,11 @@ const styles = {
         borderRadius: '15px',
         overflow: 'hidden',
         background: '#F3F4F6',
-        aspectRatio: '1/1',
     },
     previewImage: {
         width: '100%',
-        height: '100%',
-        objectFit: 'cover',
+        height: 'auto',
+        display: 'block',
     },
     retakeButton: {
         position: 'absolute',
