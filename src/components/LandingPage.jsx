@@ -61,7 +61,7 @@ const LandingPage = ({ onGetStarted, theme, toggleTheme }) => {
                         <h1 style={{ ...styles.heroTitle, color: colors.text }}>
                             One 2 Kie
                             <br />
-                            <span style={styles.heroTitleGradient}>Photo Booth Free</span>
+                            <span style={styles.heroTitleGradient}>PhotoBooth Free</span>
                         </h1>
                         <p style={{ ...styles.heroSubtitle, color: colors.textSecondary }}>
                             Abadikan momen terbaik kamu dengan berbagai pilihan layout menarik.
